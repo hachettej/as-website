@@ -1,24 +1,21 @@
 /* ==========================================================================
-   Alternatif Services
-   Plain CSS, no build step. The tokens in :root drive the whole site —
-   changing the palette or type here restyles every page.
+   Alternatif Services — Belledonne
+   Plain CSS, no build step. The tokens in :root drive the whole site.
+
+   The page is rock and snow: a granite block carries the header and hero,
+   the body below is snow-white, and the hero photo straddles the boundary
+   between them. That edge is the only idea on the page; everything else
+   stays quiet.
    ========================================================================== */
 
-/* --- Fonts ---------------------------------------------------------------
-   Self-hosted on purpose. Loading these from Google would send every
-   visitor's IP address to a third party, which the legal page says we
-   don't do. Latin subset only; it covers French including oe/OE.
+/* --- Font ----------------------------------------------------------------
+   One family, self-hosted. Loading it from Google would send every
+   visitor's IP to a third party, which the legal page says we don't do.
+   Latin subset only; it covers French including oe/OE.
    ------------------------------------------------------------------------ */
 @font-face {
-  font-family: "Fraunces";
-  src: url("fonts/fraunces-latin-var.woff2") format("woff2");
-  font-weight: 400 700;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Archivo";
-  src: url("fonts/archivo-latin-var.woff2") format("woff2");
+  font-family: "Schibsted Grotesk";
+  src: url("fonts/schibsted-grotesk-latin-var.woff2") format("woff2");
   font-weight: 400 700;
   font-style: normal;
   font-display: swap;
@@ -28,19 +25,18 @@
 :root {
   color-scheme: light;
 
-  /* Pigments. Ochre is decorative only — at 4.09:1 on paper it is not
-     legible enough for body text. Use ochre-deep (5.99:1) for anything
-     you have to read. */
-  --paper:      #faf7f2;
-  --paper-alt:  #f2ede4;
-  --ink:        #221e1b;
-  --ink-muted:  #6b625a;
-  --rule:       #e2d9cb;
-  --ochre:      #b4632a;
-  --ochre-deep: #8f4d1f;
+  --granite:      #2f3437;
+  --granite-deep: #23282a;
+  --snow:         #ffffff;
+  --mist:         #f2f4f5;
+  --ink:          #23282a;
+  --ink-muted:    #5f6b70;
+  --rule:         #dfe4e6;
+  --glacier:      #4a6e86;   /* 5.44:1 on snow  — links, buttons on light */
+  --glacier-pale: #8fb4c9;   /* 5.72:1 on granite — accents inside the band */
+  --snow-muted:   #b9c2c6;   /* 6.95:1 on granite — secondary text on dark */
 
-  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
-  --font-body: "Archivo", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font: "Schibsted Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 
   --s1: 0.25rem;
   --s2: 0.5rem;
@@ -55,6 +51,7 @@
   --measure: 64ch;
   --gutter: clamp(1.25rem, 5vw, 3rem);
   --band: clamp(3.5rem, 9vw, 7rem);
+  --overhang: clamp(3rem, 12vw, 10rem);
 }
 
 /* --- Base ---------------------------------------------------------------- */
@@ -69,11 +66,11 @@ html {
 
 body {
   margin: 0;
-  background: var(--paper);
+  background: var(--snow);
   color: var(--ink);
-  font-family: var(--font-body);
+  font-family: var(--font);
   font-size: 1.0625rem;
-  line-height: 1.65;
+  line-height: 1.6;
   font-synthesis-weight: none;
   -webkit-font-smoothing: antialiased;
 }
@@ -84,36 +81,33 @@ img {
   height: auto;
 }
 
-a { color: var(--ochre-deep); }
+a { color: var(--glacier); }
 a:hover { color: var(--ink); }
 
 :focus-visible {
-  outline: 2px solid var(--ochre-deep);
+  outline: 2px solid var(--glacier);
   outline-offset: 3px;
 }
 
 h1, h2, h3 {
   margin: 0;
-  font-family: var(--font-display);
-  font-weight: 600;
-  line-height: 1.1;
-  letter-spacing: -0.015em;
+  font-weight: 500;
+  line-height: 1.12;
   text-wrap: balance;
 }
 
-/* Fraunces carries an optical-size axis: large sizes get the higher-contrast,
-   tighter-fitting cut, small sizes the sturdier one. */
 h1 {
-  font-size: clamp(2.25rem, 1.3rem + 4vw, 4rem);
-  font-variation-settings: "opsz" 144;
+  font-size: clamp(2.25rem, 1.35rem + 3.8vw, 3.5rem);
+  line-height: 1.06;
+  letter-spacing: -0.025em;
 }
 h2 {
-  font-size: clamp(1.625rem, 1.2rem + 1.6vw, 2.375rem);
-  font-variation-settings: "opsz" 72;
+  font-size: clamp(1.5rem, 1.2rem + 1.35vw, 2rem);
+  letter-spacing: -0.02em;
 }
 h3 {
-  font-size: 1.1875rem;
-  font-variation-settings: "opsz" 24;
+  font-size: 1.0625rem;
+  font-weight: 600;
   letter-spacing: -0.005em;
 }
 
@@ -129,8 +123,10 @@ p:last-child { margin-bottom: 0; }
 }
 
 .band { padding-block: var(--band); }
-.band--tint { background: var(--paper-alt); }
+.band--tint { background: var(--mist); }
 .band--rule { border-top: 1px solid var(--rule); }
+
+.band--after-hero { padding-top: var(--band); }
 
 .band__head { max-width: var(--measure); }
 .band__head p {
@@ -142,15 +138,20 @@ p:last-child { margin-bottom: 0; }
   position: absolute;
   left: -9999px;
   top: 0;
-  background: var(--ink);
-  color: var(--paper);
-  padding: var(--s3) var(--s4);
   z-index: 10;
+  padding: var(--s3) var(--s4);
+  background: var(--snow);
+  color: var(--ink);
 }
 .skip:focus { left: var(--s3); top: var(--s3); }
 
-/* --- Masthead ------------------------------------------------------------ */
-.masthead { border-bottom: 1px solid var(--rule); }
+/* --- Granite block: masthead + hero --------------------------------------
+   One dark slab. The hero photo hangs past its lower edge so the boundary
+   cuts across the image. */
+.crest {
+  background: var(--granite);
+  color: var(--snow);
+}
 
 .masthead__inner {
   display: flex;
@@ -158,20 +159,18 @@ p:last-child { margin-bottom: 0; }
   align-items: center;
   justify-content: space-between;
   gap: var(--s4);
-  padding-block: var(--s4);
+  padding-block: var(--s5);
 }
 
 .wordmark {
-  font-family: var(--font-display);
-  font-variation-settings: "opsz" 36;
+  font-size: 1.1875rem;
   font-weight: 600;
-  font-size: 1.3125rem;
-  letter-spacing: -0.01em;
-  color: var(--ink);
+  letter-spacing: -0.02em;
+  color: var(--snow);
   text-decoration: none;
   white-space: nowrap;
 }
-.wordmark:hover { color: var(--ochre-deep); }
+.wordmark:hover { color: var(--glacier-pale); }
 
 .masthead__right {
   display: flex;
@@ -179,82 +178,32 @@ p:last-child { margin-bottom: 0; }
   gap: clamp(1rem, 3vw, 2rem);
 }
 
-.nav {
-  display: flex;
-  gap: clamp(1rem, 3vw, 2rem);
-}
+.nav { display: flex; gap: clamp(1rem, 3vw, 2rem); }
 .nav a {
-  color: var(--ink-muted);
+  color: var(--snow-muted);
   text-decoration: none;
   font-size: 0.9375rem;
 }
-.nav a:hover { color: var(--ochre-deep); }
+.nav a:hover { color: var(--snow); }
 
-/* Below this width the four anchors crowd the phone button, which is the
-   only thing on the page that actually earns a tap. Drop the anchors. */
+/* Below this the anchors crowd the phone button, which is the only thing
+   on the page that really earns a tap. */
 @media (max-width: 46rem) {
   .nav { display: none; }
 }
 
-/* --- Buttons ------------------------------------------------------------- */
-.btn {
-  display: inline-block;
-  font: inherit;
-  font-weight: 600;
-  line-height: 1.2;
-  padding: 0.8125rem 1.25rem;
-  border: 1px solid var(--ochre-deep);
-  background: var(--ochre-deep);
-  color: var(--paper);
-  text-decoration: none;
-  transition: background-color 120ms ease, border-color 120ms ease, color 120ms ease;
-}
-.btn:hover {
-  background: var(--ink);
-  border-color: var(--ink);
-  color: var(--paper);
-}
-
-.btn--ghost {
-  background: transparent;
-  border-color: var(--ink);
-  color: var(--ink);
-}
-.btn--ghost:hover {
-  background: var(--ink);
-  color: var(--paper);
-}
-
-.btn--sm {
-  padding: 0.5rem 0.875rem;
-  font-size: 0.9375rem;
-}
-
-/* --- Hero ---------------------------------------------------------------- */
-.hero { padding-block: clamp(3rem, 8vw, 6rem); }
-
-.hero__inner {
-  display: grid;
-  gap: clamp(2.5rem, 6vw, 4rem);
-  align-items: start;
-}
-
-@media (min-width: 60rem) {
-  .hero__inner { grid-template-columns: 1fr minmax(24rem, 30rem); }
-}
-
-.hero__rule {
-  width: 4.5rem;
-  height: 3px;
-  margin: var(--s5) 0;
-  border: 0;
-  background: var(--ochre);
+/* Bottom padding has to clear the photo that is pulled up over it. */
+.hero {
+  padding-top: clamp(2.5rem, 7vw, 5rem);
+  padding-bottom: calc(var(--overhang) + clamp(1.5rem, 4vw, 2.5rem));
 }
 
 .hero__lead {
   max-width: 46ch;
-  font-size: 1.125rem;
-  color: var(--ink-muted);
+  margin-top: var(--s5);
+  font-size: 1.1875rem;
+  line-height: 1.55;
+  color: var(--snow-muted);
 }
 
 .hero__actions {
@@ -265,52 +214,67 @@ p:last-child { margin-bottom: 0; }
   margin-top: var(--s6);
 }
 
-.hero__figure { margin: 0; }
+/* Sits just below the granite block and is pulled back up into it, so the
+   block's lower edge cuts across the image. Margin collapsing makes the
+   mirror-image approach (negative bottom margin inside the block) unreliable. */
+.hero__figure {
+  position: relative;
+  z-index: 1;
+  margin: calc(-1 * var(--overhang)) 0 0;
+}
 .hero__figure img {
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 16 / 9;
   object-fit: cover;
-  background: var(--paper-alt);
+  background: var(--granite-deep);
 }
 
-/* --- Nuancier ------------------------------------------------------------
-   The one decorative flourish on the site. A paint chart is the most
-   characteristic object in this trade, and these are real tones from
-   recent jobs, so it carries information rather than filling space. */
-.nuancier { margin-top: var(--s5); }
-
-.nuancier__list {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--s3);
-  margin: 0;
-  padding: 0;
-  list-style: none;
+/* --- Buttons ------------------------------------------------------------- */
+.btn {
+  display: inline-block;
+  font: inherit;
+  font-weight: 600;
+  line-height: 1.2;
+  padding: 0.8125rem 1.25rem;
+  border: 1px solid var(--granite);
+  border-radius: 4px;
+  background: var(--granite);
+  color: var(--snow);
+  text-decoration: none;
+  transition: background-color 120ms ease, border-color 120ms ease, color 120ms ease;
+}
+.btn:hover {
+  background: var(--glacier);
+  border-color: var(--glacier);
+  color: var(--snow);
 }
 
-@media (min-width: 30rem) {
-  .nuancier__list { grid-template-columns: repeat(6, 1fr); }
+/* On the granite block the fills invert. */
+.btn--light {
+  background: var(--snow);
+  border-color: var(--snow);
+  color: var(--granite);
+}
+.btn--light:hover {
+  background: var(--glacier-pale);
+  border-color: var(--glacier-pale);
+  color: var(--granite-deep);
 }
 
-.teinte__chip {
-  display: block;
-  height: clamp(3rem, 7vw, 4.25rem);
-  background: var(--teinte);
-  border: 1px solid rgb(34 30 27 / 0.12);
+.btn--outline {
+  background: transparent;
+  border-color: var(--snow-muted);
+  color: var(--snow);
+}
+.btn--outline:hover {
+  background: transparent;
+  border-color: var(--snow);
+  color: var(--snow);
 }
 
-.teinte__name {
-  display: block;
-  margin-top: var(--s2);
-  font-size: 0.6875rem;
-  line-height: 1.3;
-  color: var(--ink-muted);
-}
-
-.nuancier__note {
-  margin: var(--s4) 0 0;
-  font-size: 0.8125rem;
-  color: var(--ink-muted);
+.btn--sm {
+  padding: 0.5rem 0.875rem;
+  font-size: 0.9375rem;
 }
 
 /* --- Services ------------------------------------------------------------ */
@@ -332,12 +296,9 @@ p:last-child { margin-bottom: 0; }
 }
 
 .service dt {
-  font-family: var(--font-display);
-  font-variation-settings: "opsz" 30;
   font-weight: 600;
-  font-size: 1.25rem;
-  line-height: 1.25;
-  letter-spacing: -0.01em;
+  font-size: 1.0625rem;
+  letter-spacing: -0.005em;
 }
 
 .service dd {
@@ -362,13 +323,7 @@ p:last-child { margin-bottom: 0; }
   width: 100%;
   aspect-ratio: 4 / 3;
   object-fit: cover;
-  background: var(--paper-alt);
-}
-
-.shot img,
-.hero__figure img {
-  outline: 1px solid rgb(34 30 27 / 0.09);
-  outline-offset: -1px;
+  background: var(--mist);
 }
 
 .shot figcaption {
@@ -399,16 +354,14 @@ p:last-child { margin-bottom: 0; }
   left: 0;
   bottom: 0;
   padding: 0.25rem 0.5rem;
-  background: var(--paper);
+  background: var(--snow);
   color: var(--ink);
   font-size: 0.6875rem;
   font-weight: 600;
-  letter-spacing: 0.01em;
 }
 
 /* --- Déroulé d'un chantier ----------------------------------------------
-   Numbered because this genuinely is a sequence. Nothing else on the page
-   is numbered. */
+   Numbered because this genuinely is a sequence. Nothing else is numbered. */
 .steps {
   margin: var(--s7) 0 0;
   padding: 0;
@@ -427,12 +380,12 @@ p:last-child { margin-bottom: 0; }
 
 .step::before {
   content: counter(step, decimal-leading-zero);
-  font-family: var(--font-display);
-  font-variation-settings: "opsz" 48;
+  font-size: 0.9375rem;
   font-weight: 600;
-  font-size: 1.625rem;
-  line-height: 1;
-  color: var(--ochre);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+  line-height: 1.5;
+  color: var(--glacier);
 }
 
 .step p {
@@ -470,16 +423,14 @@ p:last-child { margin-bottom: 0; }
 
 .contact__tel {
   display: inline-block;
-  font-family: var(--font-display);
-  font-variation-settings: "opsz" 96;
-  font-weight: 600;
-  font-size: clamp(1.75rem, 1.1rem + 3.2vw, 2.75rem);
+  font-size: clamp(1.75rem, 1.1rem + 3.2vw, 2.5rem);
+  font-weight: 500;
   line-height: 1.1;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.025em;
   color: var(--ink);
   text-decoration: none;
 }
-.contact__tel:hover { color: var(--ochre-deep); }
+.contact__tel:hover { color: var(--glacier); }
 
 .contact__label {
   margin: 0 0 var(--s2);
@@ -493,14 +444,14 @@ p:last-child { margin-bottom: 0; }
   line-height: 1.7;
   color: var(--ink-muted);
 }
-.contact__detail a { color: var(--ochre-deep); }
 
-/* --- Colophon ------------------------------------------------------------ */
+/* --- Colophon ------------------------------------------------------------
+   Granite again, so the page is bookended by rock. */
 .colophon {
-  border-top: 1px solid var(--rule);
+  background: var(--granite);
+  color: var(--snow-muted);
   padding-block: var(--s7);
   font-size: 0.875rem;
-  color: var(--ink-muted);
 }
 
 .colophon__inner {
@@ -510,8 +461,8 @@ p:last-child { margin-bottom: 0; }
   gap: var(--s4) var(--s6);
 }
 
-.colophon a { color: var(--ink-muted); }
-.colophon a:hover { color: var(--ochre-deep); }
+.colophon a { color: var(--glacier-pale); }
+.colophon a:hover { color: var(--snow); }
 
 .colophon__legal {
   display: flex;
@@ -519,13 +470,12 @@ p:last-child { margin-bottom: 0; }
   gap: var(--s4);
 }
 
-/* --- Legal / 404 prose --------------------------------------------------- */
+/* --- Legal / prose ------------------------------------------------------- */
 .prose { max-width: var(--measure); }
 
 .prose h2 {
   margin-top: var(--s7);
-  font-size: 1.375rem;
-  font-variation-settings: "opsz" 36;
+  font-size: 1.25rem;
 }
 .prose h2:first-of-type { margin-top: var(--s6); }
 
