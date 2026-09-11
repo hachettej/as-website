@@ -1,0 +1,13 @@
+# Local tool caches, not part of the site
+.fastembed_cache/
+graphify-out/
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+*~
+.idea/
+.vscode/
+
+# Playwright MCP scratch output
+.playwright-mcp/
