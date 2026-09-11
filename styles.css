@@ -391,6 +391,9 @@ p:last-child { margin-bottom: 0; }
 
 .pair__side { position: relative; }
 
+/* Split avant/apres panels are roughly 2:1, unlike the 4:3 single shots. */
+.pair img { aspect-ratio: 2 / 1; }
+
 .pair__tag {
   position: absolute;
   left: 0;
