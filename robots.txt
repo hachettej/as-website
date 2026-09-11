@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://exemple.github.io/as-website/sitemap.xml
+Sitemap: https://hachettej.github.io/as-website/sitemap.xml
